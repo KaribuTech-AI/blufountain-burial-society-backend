@@ -3,9 +3,6 @@ package com.burialsociety.member_service.dto;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDate;
 
 @Data
@@ -15,7 +12,6 @@ public class PersonalDetailsRequestDto {
     private String citizenship;
     private String identificationType;
 
-    // Adding validation based on your schema
     @NotEmpty(message = "First name is required")
     private String firstname;
 
@@ -28,7 +24,7 @@ public class PersonalDetailsRequestDto {
     private String title;
 
     @NotNull(message = "Date of birth is required")
-    private LocalDate dateOfBirth; // 'DATE' maps to LocalDate
+    private LocalDate dateOfBirth; 
 
     private String middlename;
 
@@ -44,6 +40,12 @@ public class PersonalDetailsRequestDto {
     private String passportNumber;
     private LocalDate passportExpiryDate;
     private String driverLicenseNumber;
+    
+    // New fields
     private String birthDistrict;
-
+    private String usaResident;
+    private String usaCitizen;
+    private String usaGreenCardHolder;
+    private String highestLevelOfEducation;
+    private String ssrNumber;
 }

@@ -85,4 +85,19 @@ public class PersonalDetails {
 
     @Column(name = "birth_district")
     private String birthDistrict;
+
+    @Column(name = "usa_resident")
+    private String usaResident;
+
+    @Column(name = "usa_citizen")
+    private String usaCitizen;
+
+    @Column(name = "usa_green_card_holder")
+    private String usaGreenCardHolder;
+
+    @Column(name = "highest_level_of_education")
+    private String highestLevelOfEducation;
+
+    @Column(name = "ssr_number")
+    private String ssrNumber;
 }

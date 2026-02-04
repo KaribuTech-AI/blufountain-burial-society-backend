@@ -19,7 +19,31 @@ public class MemberRequestDto {
     private String createdBy;
 
     @NotNull(message = "Personal details are required")
-    @Valid // <-- This tells Spring to validate the nested DTO
+    @Valid 
     private PersonalDetailsRequestDto personalDetails;
+
+    @Valid
+    private ContactDetailsRequestDto contactDetails;
+
+    @Valid
+    private java.util.List<AddressDetailsRequestDto> addressDetails;
+
+    @Valid
+    private CitizenshipRequestDto citizenship;
+
+    @Valid
+    private EmploymentDetailsRequestDto employmentDetails;
+
+    @Valid
+    private java.util.List<RelatedPartyRequestDto> relatedParties;
+
+    @Valid
+    private MembershipPlanRequestDto membershipPlan;
+
+    @Valid
+    private java.util.List<DocumentMetadataRequestDto> documents;
+
+    @Valid
+    private PreferencesRequestDto preferences;
 
 }

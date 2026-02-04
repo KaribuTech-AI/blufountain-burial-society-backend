@@ -32,6 +32,15 @@ public class ContactDetails {
     @Column(name = "telephone_number")
     private String telephoneNumber;
 
-    @Column(name = "social_media_handle")
-    private String socialMediaHandle;
+    @Column(name = "facebook")
+    private String facebook;
+
+    @Column(name = "twitter")
+    private String twitter;
+
+    @Column(name = "linkedin")
+    private String linkedin;
+
+    @Column(name = "skype")
+    private String skype;
 }
