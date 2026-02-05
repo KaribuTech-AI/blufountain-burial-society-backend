@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: blufountain-burial-society-backend-deployment
-  namespace: blufountain-burial-society-backend
+  namespace: blufountain
 spec:
   replicas: 2
   selector:
@@ -21,6 +21,7 @@ spec:
         envFrom:
           - configMapRef:
               name: blufountain-burial-society-backend-config
+
 
 
 
