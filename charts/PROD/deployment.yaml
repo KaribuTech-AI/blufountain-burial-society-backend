@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: blufountain-phamarcy-management-backend-deployment
+  name: blufountain-burial-society-backend-deployment
   namespace: blufountain
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: blufountain-phamarcy-management-backend
+      app: blufountain-burial-society-backend
   template:
     metadata:
       labels:
-        app: blufountain-phamarcy-management-backend
+        app: blufountain-burial-society-backend
     spec:
       containers:
-      - name: blufountain-phamarcy-management-backend
-        image: kaributechsworkflow/blufountain-phamarcy-management-backend:2a1eed913fd10fbf0b9545e38afd94d0e32bca3b
+      - name: blufountain-burial-society-backend
+        image: kaributechsworkflow/blufountain-burial-society-backend:2a1eed913fd10fbf0b9545e38afd94d0e32bca3b
         ports:
         - containerPort: 8080
         envFrom:
           - configMapRef:
-              name: blufountain-phamarcy-management-backend-config
+              name: blufountain-burial-society-backend-config
 
 
