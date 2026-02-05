@@ -45,4 +45,25 @@ public class BillingController {
     public ResponseEntity<List<PaymentDto>> getMemberPayments(@PathVariable Long memberId) {
         return ResponseEntity.ok(billingService.getMemberPayments(memberId));
     }
+
+    @GetMapping("/payments/all")
+    public ResponseEntity<List<PaymentDto>> getAllPayments() {
+        return ResponseEntity.ok(billingService.getAllPayments());
+    }
+
+    @GetMapping("/accounts/arrears")
+    public ResponseEntity<List<BillingAccountResponseDto>> getArrearsAccounts() {
+        return ResponseEntity.ok(billingService.getArrearsAccounts());
+    }
+
+    @GetMapping("/bank-transactions")
+    public ResponseEntity<List<com.burialsociety.billing_service.entity.BankTransaction>> getBankTransactions() {
+        billingService.seedBankTransactions(); // Ensure mock data exists
+        return ResponseEntity.ok(billingService.getBankTransactions());
+    }
+
+    @PostMapping("/bank-transactions/{id}/match")
+    public ResponseEntity<com.burialsociety.billing_service.entity.BankTransaction> matchTransaction(@PathVariable Long id) {
+        return ResponseEntity.ok(billingService.matchTransaction(id));
+    }
 }

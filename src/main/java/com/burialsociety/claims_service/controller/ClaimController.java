@@ -48,4 +48,9 @@ public class ClaimController {
     public ResponseEntity<List<ClaimResponseDto>> getMemberClaims(@PathVariable Long memberId) {
         return ResponseEntity.ok(claimService.getClaimsByMember(memberId));
     }
+
+    @GetMapping
+    public ResponseEntity<List<ClaimResponseDto>> getAllClaims() {
+        return ResponseEntity.ok(claimService.getAllClaims());
+    }
 }

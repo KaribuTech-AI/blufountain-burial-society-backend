@@ -17,4 +17,14 @@ public interface BillingService {
     List<InvoiceDto> getMemberInvoices(Long memberId);
     
     List<PaymentDto> getMemberPayments(Long memberId);
+
+    List<PaymentDto> getAllPayments();
+
+    List<BillingAccountResponseDto> getArrearsAccounts();
+
+    List<com.burialsociety.billing_service.entity.BankTransaction> getBankTransactions();
+    
+    com.burialsociety.billing_service.entity.BankTransaction matchTransaction(Long id);
+    
+    void seedBankTransactions(); // Helper
 }

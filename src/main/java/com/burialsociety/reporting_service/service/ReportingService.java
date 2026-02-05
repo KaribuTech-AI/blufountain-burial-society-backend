@@ -7,4 +7,10 @@ public interface ReportingService {
     ReportSummaryDto getDashboardSummary();
     ChartDataDto getMemberGrowthData();
     ChartDataDto getClaimsAnalysisData();
+
+    ChartDataDto getArrearsAgingData();
+
+    List<com.burialsociety.partner_service.entity.Partner> getPartnerPerformance();
+
+    com.burialsociety.reporting_service.dto.MainDashboardStatsDto getMainDashboardStats();
 }

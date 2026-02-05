@@ -32,4 +32,19 @@ public class ReportingController {
     public ResponseEntity<ChartDataDto> getClaimsAnalysis() {
         return ResponseEntity.ok(reportingService.getClaimsAnalysisData());
     }
+
+    @GetMapping("/arrears-aging")
+    public ResponseEntity<ChartDataDto> getArrearsAging() {
+        return ResponseEntity.ok(reportingService.getArrearsAgingData());
+    }
+
+    @GetMapping("/partner-performance")
+    public ResponseEntity<java.util.List<com.burialsociety.partner_service.entity.Partner>> getPartnerPerformance() {
+        return ResponseEntity.ok(reportingService.getPartnerPerformance());
+    }
+
+    @GetMapping("/main-dashboard/stats")
+    public ResponseEntity<com.burialsociety.reporting_service.dto.MainDashboardStatsDto> getMainDashboardStats() {
+        return ResponseEntity.ok(reportingService.getMainDashboardStats());
+    }
 }

@@ -8,4 +8,6 @@ import java.util.Optional;
 @Repository
 public interface BillingAccountRepository extends JpaRepository<BillingAccount, Long> {
     Optional<BillingAccount> findByMemberId(Long memberId);
+    
+    java.util.List<BillingAccount> findByCurrentBalanceLessThan(java.math.BigDecimal amount);
 }

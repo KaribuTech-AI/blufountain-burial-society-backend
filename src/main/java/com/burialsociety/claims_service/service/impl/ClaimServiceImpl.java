@@ -120,6 +120,13 @@ public class ClaimServiceImpl implements ClaimService {
     }
 
     @Override
+    public List<ClaimResponseDto> getAllClaims() {
+        return claimRepository.findAll().stream()
+                .map(claimMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<ClaimResponseDto> getClaimsByStatus(String status) {
         return claimRepository.findByStatus(status).stream()
                 .map(claimMapper::toDto)

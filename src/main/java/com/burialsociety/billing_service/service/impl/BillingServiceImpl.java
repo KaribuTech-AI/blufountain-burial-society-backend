@@ -135,4 +135,55 @@ public class BillingServiceImpl implements BillingService {
                 .map(billingMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<PaymentDto> getAllPayments() {
+        return paymentRepository.findAll(org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "paymentDate")).stream()
+                .map(billingMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BillingAccountResponseDto> getArrearsAccounts() {
+        return billingAccountRepository.findByCurrentBalanceLessThan(BigDecimal.ZERO).stream()
+                .map(billingMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    private final com.burialsociety.billing_service.repository.BankTransactionRepository bankTransactionRepository;
+
+    @Override
+    public List<com.burialsociety.billing_service.entity.BankTransaction> getBankTransactions() {
+        return bankTransactionRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public com.burialsociety.billing_service.entity.BankTransaction matchTransaction(Long id) {
+        com.burialsociety.billing_service.entity.BankTransaction trx = bankTransactionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Transaction not found"));
+        trx.setStatus("MATCHED");
+        return bankTransactionRepository.save(trx);
+    }
+
+    @Override
+    @Transactional
+    public void seedBankTransactions() {
+        if (bankTransactionRepository.count() == 0) {
+            bankTransactionRepository.saveAll(List.of(
+                    com.burialsociety.billing_service.entity.BankTransaction.builder()
+                            .bankDate(LocalDate.now().minusDays(1))
+                            .description("ECOCASH TRANSFER REF 12345")
+                            .amount(BigDecimal.valueOf(15.00))
+                            .status("MATCHED")
+                            .build(),
+                    com.burialsociety.billing_service.entity.BankTransaction.builder()
+                            .bankDate(LocalDate.now())
+                            .description("CASH DEPOSIT BRANCH A")
+                            .amount(BigDecimal.valueOf(30.00))
+                            .status("UNMATCHED")
+                            .build()
+            ));
+        }
+    }
 }
