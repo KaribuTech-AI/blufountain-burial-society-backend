@@ -2,6 +2,7 @@ package com.burialsociety.billing_service.dto;
 
 import lombok.Data;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 public class BillingAccountRequestDto {
@@ -11,4 +12,10 @@ public class BillingAccountRequestDto {
     private Integer gracePeriodDays;
     private String arrearsPolicy;
     private Boolean paymentHoliday;
+    private LocalDate lastPaymentDate;
+    private BigDecimal currentBalance;
+    private LocalDate nextBillingDate;
+    private String accountStatus;
+
+
 }

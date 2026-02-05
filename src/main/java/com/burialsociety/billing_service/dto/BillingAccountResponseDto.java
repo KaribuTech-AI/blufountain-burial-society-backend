@@ -14,6 +14,7 @@ public class BillingAccountResponseDto {
     private BigDecimal baseContributionAmount;
     private String accountStatus;
     private LocalDate nextBillingDate;
+    private LocalDate lastPaymentDate;
     
     // Optional summaries
     private List<InvoiceDto> recentInvoices;

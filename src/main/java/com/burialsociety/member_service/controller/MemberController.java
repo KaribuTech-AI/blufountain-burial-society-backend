@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController // <--- FIX 1: Add this
-@RequestMapping("/api/v1/members") // <--- FIX 2: Add the base path
+@RestController
+@RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
