@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: blufountain-phamarcy-management-backend-deployment
-  namespace: blufountain-phamarcy-management-backend
+  namespace: blufountain
 spec:
   replicas: 2
   selector:
@@ -21,4 +21,5 @@ spec:
         envFrom:
           - configMapRef:
               name: blufountain-phamarcy-management-backend-config
+
 
