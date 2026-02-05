@@ -17,19 +17,21 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
+
     private final MemberRepository memberRepository;
-    private final MemberMapper memberMapper; // Inject MapStruct mapper
+    private final MemberMapper memberMapper;
 
     @Override
     @Transactional
     public MemberResponseDto createMember(MemberRequestDto requestDto) {
-        // 1. Convert DTO to Entity (Mapper handles hierarchy and links)
+        // Convert DTO to Entity
         Member member = memberMapper.toEntity(requestDto);
-        
-        // 2. Save
+
+
+        syncRelationships(member);
         Member savedMember = memberRepository.save(member);
-        
-        // 3. Convert back
+
+        // Convert back to DTO
         return memberMapper.toDto(savedMember);
     }
 
@@ -39,25 +41,51 @@ public class MemberServiceImpl implements MemberService {
         Member existingMember = memberRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Member not found with id: " + id));
 
-        // Note: Full update using mapstruct would typically require mapping onto existing target.
-        // For now, simpler approach or manual update might be safer for partial updates, 
-        // but for this phase assuming full payload update or handled via careful mapping.
-        // A simple approach is to create new entity and copy ID, but that orphans children if not careful.
-        // Ideally: memberMapper.updateEntityFromDto(requestDto, existingMember);
-        // But since we didn't define that in Mapper yet, let's leave update minimal or unimplemented fully until Phase verify.
-        // Re-implementing essentially what create does but preserving ID?
-        
-        // Let's implement a basic update strategy: Map new structure, set ID, save.
-        // CAUTION: This replaces all children. Ideally we want merge.
+        // Map the new data to a fresh entity object
         Member updatedEntity = memberMapper.toEntity(requestDto);
+
+        // Preserve the identity and metadata
         updatedEntity.setId(existingMember.getId());
-        updatedEntity.setCreationDate(existingMember.getCreationDate()); // Preserve immutable
-        
-        // Be careful with orphans.
-        // Ideally we need: void updateMemberFromDto(MemberRequestDto dto, @MappingTarget Member entity); in Mapper.
-        
+        updatedEntity.setCreationDate(existingMember.getCreationDate());
+
+        // Sync relationships for the updated entity
+        syncRelationships(updatedEntity);
+
         Member saved = memberRepository.save(updatedEntity);
         return memberMapper.toDto(saved);
+    }
+
+    /**
+     * Helper method to ensure bidirectional relationships are established.
+     * JPA needs the child to have a reference to the parent for the 'member_id' column.
+     */
+    private void syncRelationships(Member member) {
+        if (member.getPersonalDetails() != null) {
+            member.getPersonalDetails().setMember(member);
+        }
+
+        if (member.getContactDetails() != null) {
+            member.getContactDetails().setMember(member);
+        }
+
+        if (member.getAddressDetails() != null) {
+            member.getAddressDetails().forEach(address -> address.setMember(member));
+        }
+
+        if (member.getCitizenship() != null) {
+            member.getCitizenship().setMember(member);
+        }
+
+        if (member.getEmploymentDetails() != null) {
+            member.getEmploymentDetails().setMember(member);
+
+            // Link each SourceOfFunds to the EmploymentDetails parent
+            if (member.getEmploymentDetails().getSourceOfFunds() != null) {
+                member.getEmploymentDetails().getSourceOfFunds().forEach(source ->
+                        source.setEmploymentDetails(member.getEmploymentDetails())
+                );
+            }
+        }
     }
 
     @Override

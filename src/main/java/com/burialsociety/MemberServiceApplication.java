@@ -1,4 +1,4 @@
-package com.burialsociety.member_service;
+package com.burialsociety;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

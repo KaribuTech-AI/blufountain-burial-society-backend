@@ -1,6 +1,7 @@
 package com.burialsociety.treasury_service.controller;
 
 import com.burialsociety.treasury_service.entity.GLAccount;
+import com.burialsociety.treasury_service.entity.JournalEntry;
 import com.burialsociety.treasury_service.service.TreasuryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
