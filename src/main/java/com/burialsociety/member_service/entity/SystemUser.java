@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * This is separate from the Member entity which represents society members.
  */
 @Entity
-@Table(name = "system_users")
+@Table(name = "system_users", schema = "member")
 @Getter
 @Setter
 @NoArgsConstructor

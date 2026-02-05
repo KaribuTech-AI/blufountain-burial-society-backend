@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "bank_transactions")
+@Table(name = "bank_transactions", schema = "billing")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,10 +20,10 @@ public class BankTransaction {
     private LocalDate bankDate;
     private String description;
     private BigDecimal amount;
-    
+
     // MATCHED, UNMATCHED
-    private String status; 
-    
+    private String status;
+
     // Optional: Link to matched Payment ID for audit
     private Long matchedPaymentId;
 }

@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table(name = "membership_plans")
+@Table(name = "membership_plans", schema = "member")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,7 +23,7 @@ public class MembershipPlan {
 
     @Column(name = "plan_name")
     private String planName;
-    
+
     @Column(name = "plan_identifier")
     private String planId; // from frontend 'planId'
 

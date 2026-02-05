@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "audit_logs")
+@Table(name = "audit_logs", schema = "audit")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +22,7 @@ public class AuditLog {
     private String username; // 'user' is reserved keyword in some DBs
     private String action; // CREATE, UPDATE, DELETE
     private String entityName; // MEMBER, CLAIM, etc
-    
+
     @Column(columnDefinition = "TEXT")
     private String changes; // JSON string of before/after
 }

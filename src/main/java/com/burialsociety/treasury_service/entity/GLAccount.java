@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "gl_accounts")
+@Table(name = "gl_accounts", schema = "treasury")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,10 +20,10 @@ public class GLAccount {
 
     @Column(unique = true)
     private String code; // e.g., "1000"
-    
+
     private String name; // "Cash on Hand"
     private String type; // ASSET, LIABILITY, INCOME, EXPENSE
-    
+
     private BigDecimal balance;
     private String status; // ACTIVE
 }

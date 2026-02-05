@@ -5,7 +5,7 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "citizenship")
+@Table(name = "citizenship", schema = "member")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,7 +22,7 @@ public class Citizenship {
 
     private String country;
     private String status;
-    
+
     @Column(name = "date_of_acquisition")
     private LocalDate dateOfAcquisition;
 }

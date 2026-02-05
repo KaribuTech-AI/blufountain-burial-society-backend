@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "related_parties")
+@Table(name = "related_parties", schema = "member")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,16 +24,16 @@ public class RelatedParty {
 
     private String firstname;
     private String lastname;
-    
+
     // Additional fields might be needed like ID number, Contact, etc.
     // For now assuming basic details based on 'PartnershipDetails'
-    
+
     @Column(name = "same_address")
     private Boolean sameAddress;
-    
+
     @Column(name = "same_employer")
     private Boolean sameEmployer;
-    
+
     @Column(name = "is_existing_customer")
     private String isAnExistingCustomer;
 }

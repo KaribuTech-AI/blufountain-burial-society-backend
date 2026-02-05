@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "partners")
+@Table(name = "partners", schema = "partner")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,13 +18,13 @@ public class Partner {
     private Long id;
 
     private String name;
-    
+
     @Column(name = "partner_category")
     private String category; // FUNERAL_PARLOUR, TRANSPORTER, TOMBSTONE_VENDOR
 
     private String contactNumber;
     private String email;
-    
+
     private double slaAdherence; // 0-100
     private double rating; // 0-5.0
     private String status; // ACTIVE, PENDING

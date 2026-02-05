@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "billing_accounts")
+@Table(name = "billing_accounts", schema = "billing")
 @Data
 @Builder
 @NoArgsConstructor
@@ -28,7 +28,8 @@ public class BillingAccount {
 
     @Column(nullable = false)
     @Builder.Default
-    private BigDecimal currentBalance = BigDecimal.ZERO; // Positive means credit, Negative means Arrears (or vice versa? Usually Debit is + owed). Let's say + is Owed.
+    private BigDecimal currentBalance = BigDecimal.ZERO; // Positive means credit, Negative means Arrears (or vice
+                                                         // versa? Usually Debit is + owed). Let's say + is Owed.
 
     @Column(nullable = false)
     private String billingFrequency; // MONTHLY, ANNUALLY
@@ -37,11 +38,11 @@ public class BillingAccount {
     private BigDecimal baseContributionAmount;
 
     private Integer gracePeriodDays;
-    
+
     private String arrearsPolicy; // WARN, SUSPEND, TERMINATE
 
     private LocalDate nextBillingDate;
-    
+
     private LocalDate lastPaymentDate;
 
     // Status: ACTIVE, IN_ARREARS, LAPSED, SUSPENDED

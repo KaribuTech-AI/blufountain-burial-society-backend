@@ -8,7 +8,7 @@ import java.time.LocalDate;
  * Represents Business Rules for automated policy lifecycle and claim decisions.
  */
 @Entity
-@Table(name = "business_rules")
+@Table(name = "business_rules", schema = "member")
 @Getter
 @Setter
 @NoArgsConstructor

@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 
 @Entity
 @Builder
-@Table(name = "members")
+@Table(name = "members", schema = "member")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,7 +22,6 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(name = "case_number")
     private String caseNumber;
 
@@ -30,7 +29,7 @@ public class Member {
     private String createdBy;
 
     @CreationTimestamp // Automatically sets this on creation
-    @Column(name = "creation_date",updatable = false)
+    @Column(name = "creation_date", updatable = false)
     private OffsetDateTime creationDate;
 
     /**
@@ -74,7 +73,6 @@ public class Member {
     @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Preferences preferences;
 
-
     // Helper methods to link both sides of the relationship
     public void setPersonalDetails(PersonalDetails details) {
         if (details != null) {
@@ -89,49 +87,49 @@ public class Member {
         }
         this.contactDetails = details;
     }
-    
+
     public void setAddressDetails(java.util.List<AddressDetails> details) {
         if (details != null) {
             details.forEach(d -> d.setMember(this));
         }
         this.addressDetails = details;
     }
-    
+
     public void setCitizenship(Citizenship citizenship) {
         if (citizenship != null) {
             citizenship.setMember(this);
         }
         this.citizenship = citizenship;
     }
-    
+
     public void setEmploymentDetails(EmploymentDetails details) {
         if (details != null) {
             details.setMember(this);
         }
         this.employmentDetails = details;
     }
-    
+
     public void setRelatedParties(java.util.List<RelatedParty> parties) {
         if (parties != null) {
             parties.forEach(p -> p.setMember(this));
         }
         this.relatedParties = parties;
     }
-    
+
     public void setMembershipPlan(MembershipPlan plan) {
         if (plan != null) {
             plan.setMember(this);
         }
         this.membershipPlan = plan;
     }
-    
+
     public void setDocuments(java.util.List<DocumentMetadata> docs) {
         if (docs != null) {
             docs.forEach(d -> d.setMember(this));
         }
         this.documents = docs;
     }
-    
+
     public void setPreferences(Preferences prefs) {
         if (prefs != null) {
             prefs.setMember(this);

@@ -5,7 +5,7 @@ import lombok.*;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "document_metadata")
+@Table(name = "document_metadata", schema = "member")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,10 +25,10 @@ public class DocumentMetadata {
 
     @Column(name = "file_name")
     private String fileName;
-    
+
     @Column(name = "file_path")
     private String filePath; // Or storage URL
-    
+
     @Lob
     @Column(name = "content_base64")
     private String contentBase64; // If storing small documents directly in DB temporarily

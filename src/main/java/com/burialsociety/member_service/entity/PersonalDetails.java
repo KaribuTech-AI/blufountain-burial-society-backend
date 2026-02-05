@@ -1,6 +1,5 @@
 package com.burialsociety.member_service.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "personal_details")
+@Table(name = "personal_details", schema = "member")
 public class PersonalDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

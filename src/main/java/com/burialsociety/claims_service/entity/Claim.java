@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "claims")
+@Table(name = "claims", schema = "claims")
 @Data
 @Builder
 @NoArgsConstructor

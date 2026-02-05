@@ -5,7 +5,7 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "member_preferences")
+@Table(name = "member_preferences", schema = "member")
 @Getter
 @Setter
 @NoArgsConstructor
