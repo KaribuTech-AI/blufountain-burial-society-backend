@@ -1,6 +1,7 @@
 package com.burialsociety.billing_service.service.impl;
 
 import com.burialsociety.billing_service.dto.*;
+import com.burialsociety.billing_service.entity.BankTransaction;
 import com.burialsociety.billing_service.entity.BillingAccount;
 import com.burialsociety.billing_service.entity.Invoice;
 import com.burialsociety.billing_service.entity.Payment;
@@ -149,5 +150,30 @@ public class BillingServiceImpl implements BillingService {
         return paymentRepository.findByBillingAccountId(account.getId()).stream()
                 .map(billingMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PaymentDto> getAllPayments() {
+        return List.of();
+    }
+
+    @Override
+    public List<BillingAccountResponseDto> getArrearsAccounts() {
+        return List.of();
+    }
+
+    @Override
+    public List<BankTransaction> getBankTransactions() {
+        return List.of();
+    }
+
+    @Override
+    public BankTransaction matchTransaction(Long id) {
+        return null;
+    }
+
+    @Override
+    public void seedBankTransactions() {
+
     }
 }

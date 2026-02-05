@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blufountain-burial-society-backend-deployment
+  namespace: blufountain-burial-society-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: blufountain-burial-society-backend
+  template:
+    metadata:
+      labels:
+        app: blufountain-burial-society-backend
+    spec:
+      containers:
+      - name: blufountain-burial-society-backend
+        image: kaributechsworkflow/blufountain-burial-society-backend:2a1eed913fd10fbf0b9545e38afd94d0e32bca3b
+        ports:
+        - containerPort: 8080
+        envFrom:
+          - configMapRef:
+              name: blufountain-burial-society-backend-config
+
+
+
