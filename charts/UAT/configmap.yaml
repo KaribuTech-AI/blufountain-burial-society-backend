@@ -9,3 +9,5 @@ data:
   DB_USER: "insurehub_admin"
   DB_PASS: "Password123!"
 
+  # CORS Configuration -  frontend URLs
+  CORS_ALLOWED_ORIGINS: "http://localhost:3000,http://localhost:3001,https://46.225.10.168:30412/"
