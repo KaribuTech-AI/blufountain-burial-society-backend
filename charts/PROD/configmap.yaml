@@ -5,7 +5,7 @@ metadata:
   namespace: blufountain
 
 data:
-  DB_URL: "jdbc:postgresql://insurehub-db-server.postgres.database.azure.com:5432/blufountain_burial_society"
-  DB_USER: "insurehub_admin"
+  spring.datasource.url=jdbc:postgresql://195.201.150.91:5432/blufountain_burial_society
+  spring.datasource.username=postgres
+  spring.datasource.password=Blufountain2026!
 
-  DB_PASS: "Password123!"
