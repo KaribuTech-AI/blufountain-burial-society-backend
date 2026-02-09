@@ -3,6 +3,7 @@ package com.burialsociety.member_service.controller;
 import com.burialsociety.member_service.dto.MemberRequestDto;
 import com.burialsociety.member_service.dto.MemberResponseDto;
 import com.burialsociety.member_service.service.MemberService;
+import org.springframework.transaction.annotation.Transactional; // Use Spring's Transactional for readOnly support
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,12 +26,14 @@ public class MemberController {
     }
 
     @GetMapping("/{id}")
+    @Transactional(readOnly = true)
     public ResponseEntity<MemberResponseDto> getMemberById(@PathVariable Long id) {
         MemberResponseDto member = memberService.getMemberById(id);
         return ResponseEntity.ok(member);
     }
 
     @GetMapping
+    @Transactional(readOnly = true)
     public ResponseEntity<List<MemberResponseDto>> getAllMembers() {
         List<MemberResponseDto> members = memberService.getAllMembers();
         return ResponseEntity.ok(members);
@@ -39,6 +42,6 @@ public class MemberController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMember(@PathVariable Long id) {
         memberService.deleteMember(id);
-        return ResponseEntity.noContent().build(); // 204 No Content is standard for delete
+        return ResponseEntity.noContent().build();
     }
 }

@@ -24,14 +24,17 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public MemberResponseDto createMember(MemberRequestDto requestDto) {
-        // Convert DTO to Entity
+        // 1. Convert DTO to Entity
         Member member = memberMapper.toEntity(requestDto);
 
-
+        // 2. Establish bidirectional relationships before saving
+        // This is crucial for JPA to populate 'member_id' in child tables
         syncRelationships(member);
+
+        // 3. Save the Member (CascadeType.ALL will save the children)
         Member savedMember = memberRepository.save(member);
 
-        // Convert back to DTO
+        // 4. Convert back to DTO
         return memberMapper.toDto(savedMember);
     }
 
@@ -44,13 +47,20 @@ public class MemberServiceImpl implements MemberService {
         // Map the new data to a fresh entity object
         Member updatedEntity = memberMapper.toEntity(requestDto);
 
-        // Preserve the identity and metadata
+        // Preserve the identity and audit metadata from the existing record
         updatedEntity.setId(existingMember.getId());
+        updatedEntity.setCreatedBy(existingMember.getCreatedBy());
         updatedEntity.setCreationDate(existingMember.getCreationDate());
+
+        // Preserve case number if typically auto-generated and not in DTO
+        if (updatedEntity.getCaseNumber() == null) {
+            updatedEntity.setCaseNumber(existingMember.getCaseNumber());
+        }
 
         // Sync relationships for the updated entity
         syncRelationships(updatedEntity);
 
+        // Save (merge) the updated entity
         Member saved = memberRepository.save(updatedEntity);
         return memberMapper.toDto(saved);
     }
@@ -60,31 +70,62 @@ public class MemberServiceImpl implements MemberService {
      * JPA needs the child to have a reference to the parent for the 'member_id' column.
      */
     private void syncRelationships(Member member) {
+        // 1. Personal Details
         if (member.getPersonalDetails() != null) {
             member.getPersonalDetails().setMember(member);
         }
 
+        // 2. Contact Details
         if (member.getContactDetails() != null) {
             member.getContactDetails().setMember(member);
         }
 
+        // 3. Address Details
         if (member.getAddressDetails() != null) {
             member.getAddressDetails().forEach(address -> address.setMember(member));
         }
 
+        // 4. Citizenship
         if (member.getCitizenship() != null) {
             member.getCitizenship().setMember(member);
         }
 
+        // 5. Employment Details & Source of Funds
         if (member.getEmploymentDetails() != null) {
             member.getEmploymentDetails().setMember(member);
 
-            // Link each SourceOfFunds to the EmploymentDetails parent
+            // Nested relationship: Source of Funds -> Employment Details
             if (member.getEmploymentDetails().getSourceOfFunds() != null) {
                 member.getEmploymentDetails().getSourceOfFunds().forEach(source ->
                         source.setEmploymentDetails(member.getEmploymentDetails())
                 );
             }
+        }
+
+        // 6. Documents
+        if (member.getDocuments() != null) {
+            member.getDocuments().forEach(doc -> doc.setMember(member));
+        }
+
+        // 7. Related Parties
+        if (member.getRelatedParties() != null) {
+            member.getRelatedParties().forEach(party -> party.setMember(member));
+        }
+
+        // 8. Membership Plan & Add-ons
+        if (member.getMembershipPlan() != null) {
+            member.getMembershipPlan().setMember(member);
+
+            // Nested relationship: AddOns -> Membership Plan
+            if (member.getMembershipPlan().getAddOns() != null) {
+                member.getMembershipPlan().getAddOns().forEach(addOn ->
+                        addOn.setMembershipPlan(member.getMembershipPlan()));
+            }
+        }
+
+        // 9. Preferences
+        if (member.getPreferences() != null) {
+            member.getPreferences().setMember(member);
         }
     }
 
