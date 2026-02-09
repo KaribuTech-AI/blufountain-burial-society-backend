@@ -27,12 +27,13 @@ public class Preferences {
     private String preferredCommunicationForReminders;
 
     @ElementCollection
-    @CollectionTable(name = "member_languages", joinColumns = @JoinColumn(name = "preference_id"))
+    @CollectionTable(name = "member_languages", schema = "member", joinColumns = @JoinColumn(name = "preference_id"))
     @Column(name = "language")
     private List<String> languages;
 
     @ElementCollection
-    @CollectionTable(name = "member_hobbies", joinColumns = @JoinColumn(name = "preference_id"))
+    @CollectionTable(name = "member_hobbies", schema = "member", joinColumns = @JoinColumn(name = "preference_id"))
     @Column(name = "hobby")
     private List<String> hobbies;
+
 }
