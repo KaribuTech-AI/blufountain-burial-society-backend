@@ -15,12 +15,13 @@ spec:
     spec:
       containers:
       - name: blufountain-burial-society-backend
-        image: kaributechsworkflow/blufountain-burial-society-backend:ff8d433854d29a36afa5f9a4f93f29510f914505
+        image: kaributechsworkflow/blufountain-burial-society-backend:e835cdf7a37f0aafce670b34d6e4e9909e1c2554
         ports:
         - containerPort: 8080
         envFrom:
           - configMapRef:
               name: blufountain-burial-society-backend-config
+
 
 
 
