@@ -62,7 +62,7 @@ class ClaimServiceTest {
         when(claimMapper.toDto(any(Claim.class))).thenReturn(new ClaimResponseDto());
 
         ClaimResponseDto response = claimService.submitClaim(request);
-        
+
         assertNotNull(response);
         verify(claimRepository).save(any(Claim.class));
     }
@@ -73,7 +73,12 @@ class ClaimServiceTest {
         when(claimRepository.save(any(Claim.class))).thenReturn(claim);
         when(claimMapper.toDto(any(Claim.class))).thenReturn(new ClaimResponseDto());
 
-        claimService.approveClaim(100L, new BigDecimal("1500"), "Approved", "Admin");
+        ClaimApprovalDto approvalDto = new ClaimApprovalDto();
+        approvalDto.setAmount(new BigDecimal("1500"));
+        approvalDto.setNotes("Approved");
+        approvalDto.setApproverId("Admin");
+
+        claimService.approveClaim(100L, approvalDto);
 
         assertEquals("APPROVED", claim.getStatus());
         assertEquals(new BigDecimal("1500"), claim.getPayoutAmount());
