@@ -20,6 +20,9 @@ public class DocumentMetadata {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    @Column(name = "claim_id")
+    private Long claimId;
+
     @Column(name = "document_type")
     private String documentType; // ID Document, Proof of Residence
 

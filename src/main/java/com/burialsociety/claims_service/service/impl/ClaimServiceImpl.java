@@ -8,6 +8,8 @@ import com.burialsociety.claims_service.repository.ClaimRepository;
 import com.burialsociety.claims_service.service.ClaimService;
 import com.burialsociety.member_service.entity.Member;
 import com.burialsociety.member_service.exception.ResourceNotFoundException;
+import com.burialsociety.member_service.entity.DocumentMetadata;
+import com.burialsociety.member_service.repository.DocumentMetadataRepository;
 import com.burialsociety.member_service.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ public class ClaimServiceImpl implements ClaimService {
 
         private final ClaimRepository claimRepository;
         private final MemberRepository memberRepository;
+        private final DocumentMetadataRepository documentMetadataRepository;
         private final ClaimMapper claimMapper;
 
         @Override
@@ -62,7 +65,23 @@ public class ClaimServiceImpl implements ClaimService {
         public ClaimResponseDto getClaimById(Long id) {
                 Claim claim = claimRepository.findById(id)
                                 .orElseThrow(() -> new ResourceNotFoundException("Claim not found"));
-                return claimMapper.toDto(claim);
+
+                ClaimResponseDto dto = claimMapper.toDto(claim);
+
+                // Fetch Documents
+                List<DocumentMetadata> docs = documentMetadataRepository.findByClaimId(id);
+                List<DocumentDto> docDtos = docs.stream().map(doc -> DocumentDto.builder()
+                                .id(doc.getId())
+                                .documentType(doc.getDocumentType())
+                                .fileName(doc.getFileName())
+                                .uploadDate(doc.getUploadDate())
+                                // .url("/api/documents/download/" + doc.getId()) // Conceptual URL
+                                .build())
+                                .collect(Collectors.toList());
+
+                dto.setDocuments(docDtos);
+
+                return dto;
         }
 
         @Override

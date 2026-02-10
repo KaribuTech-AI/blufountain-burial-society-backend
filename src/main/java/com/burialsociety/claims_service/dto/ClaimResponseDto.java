@@ -19,4 +19,10 @@ public class ClaimResponseDto {
     private BigDecimal payoutAmount;
     private String approvalNotes;
     private List<ClaimStatusHistoryDto> history;
+    private List<DocumentDto> documents;
+
+    // Eligibility Flags
+    private boolean membershipActive;
+    private boolean waitingPeriodMet;
+    private boolean paymentsUpToDate;
 }
