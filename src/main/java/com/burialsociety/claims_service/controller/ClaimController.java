@@ -29,19 +29,16 @@ public class ClaimController {
 
     @PutMapping("/{id}/approve")
     public ResponseEntity<ClaimResponseDto> approveClaim(
-            @PathVariable Long id, 
-            @RequestParam BigDecimal amount, 
-            @RequestParam String notes,
-            @RequestParam(required = false, defaultValue = "Admin") String approverId) {
-        return ResponseEntity.ok(claimService.approveClaim(id, amount, notes, approverId));
+            @PathVariable Long id,
+            @RequestBody ClaimApprovalDto approvalDto) {
+        return ResponseEntity.ok(claimService.approveClaim(id, approvalDto));
     }
 
     @PutMapping("/{id}/reject")
     public ResponseEntity<ClaimResponseDto> rejectClaim(
-            @PathVariable Long id, 
-            @RequestParam String notes,
-            @RequestParam(required = false, defaultValue = "Admin") String approverId) {
-        return ResponseEntity.ok(claimService.rejectClaim(id, notes, approverId));
+            @PathVariable Long id,
+            @RequestBody ClaimRejectionDto rejectionDto) {
+        return ResponseEntity.ok(claimService.rejectClaim(id, rejectionDto));
     }
 
     @GetMapping("/member/{memberId}")
