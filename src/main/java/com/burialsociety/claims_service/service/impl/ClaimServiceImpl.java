@@ -81,6 +81,54 @@ public class ClaimServiceImpl implements ClaimService {
 
                 dto.setDocuments(docDtos);
 
+                // Settlement Details - Determine Beneficiary
+                Member member = claim.getMember();
+                String beneficiary = "Estate of " + claim.getDeceasedName();
+                if (member != null) {
+                        // Check Eligibility
+                        dto.setMembershipActive(true); // Default
+                        dto.setPaymentsUpToDate(true); // Default
+
+                        if (member.getCreationDate() != null) {
+                                dto.setWaitingPeriodMet(member.getCreationDate().plusMonths(6).toLocalDate()
+                                                .isBefore(LocalDate.now()));
+                        } else {
+                                dto.setWaitingPeriodMet(true);
+                        }
+
+                        if (!"PRINCIPAL".equalsIgnoreCase(claim.getRelationshipToMember())) {
+                                // If claim is for a dependent, the Main Member is the beneficiary
+                                if (member.getPersonalDetails() != null) {
+                                        beneficiary = member.getPersonalDetails().getFirstname() + " "
+                                                        + member.getPersonalDetails().getLastname();
+                                } else {
+                                        beneficiary = "Member (ID: " + member.getId() + ")";
+                                }
+                        } else {
+                                // Member is deceased. Find Designated Beneficiary or Next of Kin
+                                if (member.getRelatedParties() != null) {
+                                        var ben = member.getRelatedParties().stream()
+                                                        .filter(rp -> "BENEFICIARY"
+                                                                        .equalsIgnoreCase(rp.getRelationshipType())
+                                                                        || "NEXT_OF_KIN".equalsIgnoreCase(
+                                                                                        rp.getRelationshipType()))
+                                                        .findFirst();
+                                        if (ben.isPresent()) {
+                                                beneficiary = ben.get().getFirstname() + " " + ben.get().getLastname();
+                                                if (ben.get().getRelationshipType() != null) {
+                                                        beneficiary += " (" + ben.get().getRelationshipType() + ")";
+                                                }
+                                        }
+                                }
+                        }
+                }
+                dto.setBeneficiaryName(beneficiary);
+
+                // Bank Details (Future: Fetch from BillingAccount or new Entity)
+                dto.setBankName(null);
+                dto.setAccountNumber(null);
+                dto.setBranchCode(null);
+
                 return dto;
         }
 
@@ -127,6 +175,33 @@ public class ClaimServiceImpl implements ClaimService {
                                 .changedBy(rejectionDto.getApproverId() != null ? rejectionDto.getApproverId()
                                                 : "Admin")
                                 .remarks(rejectionDto.getNotes())
+                                .build();
+
+                if (claim.getStatusHistory() == null) {
+                        claim.setStatusHistory(new ArrayList<>());
+                }
+                claim.getStatusHistory().add(history);
+
+                Claim saved = claimRepository.save(claim);
+                return claimMapper.toDto(saved);
+        }
+
+        @Override
+        @Transactional
+        public ClaimResponseDto settleClaim(Long id) {
+                Claim claim = claimRepository.findById(id)
+                                .orElseThrow(() -> new ResourceNotFoundException("Claim not found"));
+
+                claim.setStatus("SETTLED");
+                // In a real system, we might record payment details here or trigger a payment
+                // event
+
+                ClaimStatusHistory history = ClaimStatusHistory.builder()
+                                .claim(claim)
+                                .status("SETTLED")
+                                .changeDate(LocalDateTime.now())
+                                .changedBy("Admin") // Should be from security context
+                                .remarks("Payment processed and claim settled")
                                 .build();
 
                 if (claim.getStatusHistory() == null) {

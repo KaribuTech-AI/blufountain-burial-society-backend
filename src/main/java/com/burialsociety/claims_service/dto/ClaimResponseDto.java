@@ -25,4 +25,9 @@ public class ClaimResponseDto {
     private boolean membershipActive;
     private boolean waitingPeriodMet;
     private boolean paymentsUpToDate;
+    // Settlement Details
+    private String beneficiaryName;
+    private String bankName;
+    private String accountNumber;
+    private String branchCode;
 }

@@ -13,6 +13,8 @@ public interface ClaimService {
 
     ClaimResponseDto rejectClaim(Long claimId, ClaimRejectionDto rejectionDto);
 
+    ClaimResponseDto settleClaim(Long id);
+
     List<ClaimResponseDto> getClaimsByMember(Long memberId);
 
     List<ClaimResponseDto> getClaimsByStatus(String status);

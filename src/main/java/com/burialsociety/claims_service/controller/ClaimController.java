@@ -40,6 +40,11 @@ public class ClaimController {
         return ResponseEntity.ok(claimService.rejectClaim(id, rejectionDto));
     }
 
+    @PutMapping("/{id}/settle")
+    public ResponseEntity<ClaimResponseDto> settleClaim(@PathVariable Long id) {
+        return ResponseEntity.ok(claimService.settleClaim(id));
+    }
+
     @GetMapping("/member/{memberId}")
     public ResponseEntity<List<ClaimResponseDto>> getMemberClaims(@PathVariable Long memberId) {
         return ResponseEntity.ok(claimService.getClaimsByMember(memberId));
