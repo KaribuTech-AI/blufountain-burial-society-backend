@@ -4,7 +4,7 @@ metadata:
   name: blufountain-burial-society-backend
   namespace: blufountain
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: blufountain-burial-society-backend
